@@ -1,0 +1,37 @@
+.library-btn-radio {
+	border-style: solid;
+	border-color: #6C757D;
+	text-align: center;
+	justify-content: center;
+	height: 2em;
+	display: flex;
+	align-items: center;
+	align-content: center;
+	vertical-align: middle;
+}
+
+.library-btn-radio-active {
+	color: white;
+	background-color: #6C757D;
+}
+
+.library-btn-radio-inactive {
+	color: black;
+	background-color: white;
+}
+
+.library-btn-radio-left {
+	border-radius: 5px 0px 0px 5px;
+	border-width: 1px;
+}
+
+.library-btn-radio-right {
+	border-radius: 0px 5px 5px 0px;
+	border-width: 1px 1px 1px 0px;
+}
+
+.library-btn-radio:hover {
+	cursor: pointer;
+	color: white;
+	background-color: #6C757D;
+}

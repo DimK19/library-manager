@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}
+Αναζήτηση
+{% endblock %}
+
+{% block content %}
+
+<div {% if type == 0 %}class="container"{% else %}style="width: 90%; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto;"{% endif %}>
+  <div class="py-5 text-center">
+    <img src="{{url_for('static', filename = 'images/open-book.png')}}" width="64">
+    <h2>Αναζήτηση βιβλίου</h2>
+    <p class="lead"></p>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      {% for c in categories %}
+      <div class="col-{% if type == 0 %}4{% else %}3{% endif %}">
+        <h4>{{c}}</h4>
+        {% for k in data[c] %}
+        <p>
+          <a href="{{url_for('get_books_with_criterion')}}?{% if type == 0 %}collection_id{% else %}author_id{% endif %}={{k.id}}">
+            {% if type == 0 %}
+              {{k.title}}
+            {% else %}
+              {{k.last_name}}{% if k.first_name != 'NULL' %}, {{k.first_name}}{% endif %}
+            {% endif %}
+          </a>
+        </p>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+Αναζήτηση
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="py-5 text-center">
+    <img src="{{url_for('static', filename = 'images/open-book.png')}}" width="64">
+    <h2>Αναζήτηση βιβλίου</h2>
+    <p class="lead"></p>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <form id="searchForm" method="POST" action="{{url_for('search_book')}}">
+
+        <div class="mb-3">
+          <label for="title"><h4>Τίτλος</h4></label>
+          <input type="text" class="form-control required" name="searchTitle" id="searchTitle">
+          <div class="invalid-feedback">
+            Απαιτούμενο πεδίο.
+          </div>
+          <br>
+        </div>
+      </form>
+      <button id="submitByTitle" class="btn btn-secondary btn-lg btn-block">Αναζήτηση</button>
+      <hr>
+    </div>
+  </div>
+  {% if books %}
+  <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th style="width: 40%">Τίτλος</th>
+          <th style="width: 25%">Συγγραφέας</th>
+          <th style="width: 20%">Εκδότης</th>
+          <th style="width: 15%">Τοποθεσία</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in books %}
+        <tr>
+          <td>{{b.title}}</td>
+          <td>{{b.authors}}</td>
+          <td>{{b.name}}</td>
+          <td>{{b.place}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+
+<script src="/static/js/script_search_by_title.js"></script>
+
+{% endblock %}

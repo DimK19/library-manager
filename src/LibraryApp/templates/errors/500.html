@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+    500: Internal Server Error
+{% endblock title %}
+
+
+{% block content %}
+
+<div class = "error_message">
+500: Internal Server Error
+</div>
+
+<!-- https://www.google.com/images/errors/robot.png -->
+<div class = "error_image_container">
+    <img src = "{{ url_for('static', filename = 'images/errors/500.png') }}" alt = "">
+</div>
+<div>
+A team of expertly trained code monkeys has been dispatched to deal with the situation.
+</div>
+
+{% endblock content %}

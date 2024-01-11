@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+
+{% block title %}
+Καταχώρηση
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="py-5 text-center">
+    <img src="{{url_for('static', filename = 'images/notebook.png')}}" width="64">
+    <h2>Στοιχεία βιβλίου</h2>
+    <p class="lead"></p>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <form id="insertForm">
+
+        <div class="mb-3">
+          <label for="title"><h4>Τίτλος</h4></label>
+          <input type="text" class="form-control required" name="title" id="title">
+          <div class="invalid-feedback">
+            Απαιτούμενο πεδίο.
+          </div>
+          <br>
+        </div>
+
+        <hr>
+
+        <div id="author">
+          <label><h4>Συγγραφέας</h4></label>
+          <div id="author-1">
+            <div class="mb-3">
+              <div class="container">
+                <div class="row">
+                  <div id="author-1-btn-existing" class="col library-btn-radio library-btn-radio-left">
+                    Επιλογή υπάρχοντος
+                  </div>
+                  <div id="author-1-btn-new" class="col library-btn-radio library-btn-radio-right">
+                    Καταχώρηση νέου
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3" id="author-1-form-new">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="authorFirstName">Όνομα</label>
+                  <input type="text" class="form-control" name="authorFirstName" id="authorFirstName1">
+                  <div class="invalid-feedback">
+                    Valid first name is required.
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="authorLastName">Επώνυμο</label>
+                  <input type="text" class="form-control" name="authorLastName" id="authorLastName1">
+                  <div class="invalid-feedback">
+                    Απαιτούμενο πεδίο.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3" id="author-1-form-existing">
+              <br>
+              <select class="form-control form-select d-block w-100 required" name="authorSelect1" id="authorSelect1">
+                <option value="" selected disabled>Αναζήτηση</option>
+                {% for a in authors %}
+                <option value="{{a.id}}">{{a.last_name}}{% if a.first_name != 'NULL' %}, {{a.first_name}}{% endif %}</option>
+                {% endfor %}
+              </select>
+              <div class="invalid-feedback">
+                Απαιτούμενο πεδίο.
+              </div>
+              <br>
+            </div>
+          </div>
+
+          <button type="button" id="btn-add-author" class="btn btn-secondary">Περισσότεροι συγγραφείς</button>
+          <br>
+        </div>
+        <hr>
+
+        <div id="publisher" class="mb-3">
+          <label><h4>Εκδότης</h4></label>
+          <div class="mb-3">
+            <div class="container">
+              <div class="row">
+                <div id="publisher-btn-existing" class="col library-btn-radio library-btn-radio-left">
+                  Επιλογή υπάρχοντος
+                </div>
+                <div id="publisher-btn-new" class="col library-btn-radio library-btn-radio-right">
+                  Καταχώρηση νέου
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3" id="publisher-form-new">
+            <div class="row">
+              <div class="col-md-8 mb-3">
+                <label for="newPublisher" class="form-label">Όνομα</label>
+                <input type="text" class="form-control" name="newPublisher" id="newPublisher">
+                <div class="invalid-feedback">
+                  Απαιτούμενο πεδίο.
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="editionNew" class="form-label">Αριθμός έκδοσης</label>
+                <input type="number" class="form-control" name="editionNew" id="editionNew" value="" placeholder="Κενό">
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3" id="publisher-form-existing">
+            <div class="row">
+              <div class="col-md-8 mb-3">
+                <label for="publisherSelect" class="form-label" style="visibility: hidden;">Επιλογή</label>
+                <select class="form-control form-select d-block w-100 required" name="publisherSelect" id="publisherSelect">
+                  <option value="" selected disabled>Αναζήτηση</option>
+                  {% for p in publishers %}
+                  <option value="{{p.id}}">{{p.name}}</option>
+                  {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                  Απαιτούμενο πεδίο.
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="editionExisting" class="form-label">Αριθμός έκδοσης</label>
+                <input type="number" class="form-control" name="editionExisting" id="editionExisting" value="" placeholder="Κενό">
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="location"><h4>Τοποθεσία</h4></label>
+            <select class="form-control form-select d-block w-100 required" name="location" id="location">
+              <option value="" selected disabled></option>
+              {% for l in locations %}
+              <option value="{{l.id}}">{{l.place}}</option>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+              Απαιτούμενο πεδίο.
+            </div>
+          </div>
+        </div>
+        <hr>
+
+        <div class="mb-3">
+          <label for="set"><h4>Είναι μέρος συλλογής ή σειράς;</h4></label>
+          <div class="d-block my-3">
+            <div class="custom-control custom-radio">
+              <input id="setNo" name="set" type="radio" class="custom-control-input" checked>
+              <label class="custom-control-label" for="setNo">Όχι</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input id="setYes" name="set" type="radio" class="custom-control-input">
+              <label class="custom-control-label" for="setYes">Ναι</label>
+            </div>
+          </div>
+          <div class="mb-3" id="set-form-global">
+            <div class="mb-3">
+              <div class="container">
+                <div class="row">
+                  <div id="set-btn-existing" class="col library-btn-radio library-btn-radio-left">
+                    Επιλογή υπαρχούσης
+                  </div>
+                  <div id="set-btn-new" class="col library-btn-radio library-btn-radio-right">
+                    Καταχώρηση νέας
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3" id="set-form-new">
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="cc-name">Είδος</label>
+                  <select class="form-control d-block w-100" name="setType" id="setType">
+                    <option value="" selected disabled></option>
+                    {% for ct in collection_types %}
+                    <option value="{{ct.id}}">{{ct.category}}</option>
+                    {% endfor %}
+                  </select>
+                  <div class="invalid-feedback">
+                    Απαιτούμενο πεδίο.
+                  </div>
+                </div>
+                <div class="col-md-5 mb-3">
+                  <label for="cc-number">Όνομα σειράς</label>
+                  <input type="text" class="form-control" id="setName" name="setName">
+                  <div class="invalid-feedback">
+                    Απαιτούμενο πεδίο.
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="volumeNew" class="form-label">Τόμος / τεύχος</label>
+                  <input type="number" class="form-control" id="volumeNew" name="volumeNew">
+                </div>
+              </div>
+              <br>
+            </div>
+            <div class="mb-3" id="set-form-existing">
+              <div class="row">
+                <div class="col-md-9 mb-3">
+                  <label for="setSelect" class="form-label">Συλλογή / σειρά</label>
+                  <select class="form-control form-select d-block w-100" name="setSelect" id="setSelect">
+                    <option value="" selected disabled>Αναζήτηση</option>
+                    {% for c in collections %}
+                    <option value="{{c.id}}">{{c.title}}</option>
+                    {% endfor %}
+                  </select>
+                  <div class="invalid-feedback">
+                    Απαιτούμενο πεδίο.
+                  </div>
+                  <br>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="volumeExisting" class="form-label">Τόμος / τεύχος</label>
+                  <input type="number" class="form-control" id="volumeExisting" name="volumeExisting">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="mb-4">
+        <button id="insertButton" class="btn btn-primary btn-lg btn-block">Καταχώρηση τίτλου</button>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<script src="/static/js/script_new_book.js"></script>
+
+{% endblock %}
