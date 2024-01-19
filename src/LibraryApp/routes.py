@@ -390,3 +390,29 @@ def edit_author():
             cur = connection.cursor()
             cur.execute(query)
         return render_template('edit_index.html')
+
+@app.route('/edit/publisher', methods = ['GET', 'POST'])
+def edit_publisher():
+    if(request.method == 'GET'):
+        connection = sqlite3.connect(DB)
+        authors = []
+        with connection:
+            cur = connection.cursor()
+            query = 'SELECT * FROM `publisher`;'
+            cur.execute(query)
+            column_names = [i[0] for i in cur.description]
+            publishers = sorted([dict(zip(column_names, entry)) for entry in cur.fetchall()], key = lambda x: x['name'])
+        return render_template('edit_publisher.html', publishers = publishers)
+    else:
+        data = request.form
+        publisher_name = data.get('publisherName')
+        publisher_name = utilities.foo(publisher_name)
+        publisher_id = data.get('publisherId')
+        query = f'''UPDATE `publisher`
+                  SET name = "{publisher_name}"
+                  WHERE id = {publisher_id};'''
+        connection = sqlite3.connect(DB)
+        with connection:
+            cur = connection.cursor()
+            cur.execute(query)
+        return render_template('edit_index.html')
