@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Διόρθωση
+{% endblock title %}
+
+{% block content %}
+
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Βιβλιοθήκη</h1>
+      <p></p>
+      <p><a class="btn btn-primary btn-lg" href="{{url_for('new_book')}}" role="button">Καταχώρηση τίτλου &raquo;</a></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h2>Κατάλογος</h2>
+        <p>Εμφάνιση όλων των καταχωρημένων τίτλων</p>
+        <p><a class="btn btn-secondary" href="{{url_for('get_books')}}" role="button">Κατάλογος &raquo;</a></p>
+      </div>
+      <div class="col-md-4">
+        <h2>Διόρθωση συγγραφέως</h2>
+        <p>Αναζήτηση καταχωρημένων βιβλίων κατά τίτλο</p>
+        <p><a class="btn btn-secondary" href="{{url_for('edit_author')}}" role="button">Αναζήτηση &raquo;</a></p>
+      </div>
+      <div class="col-md-4">
+        <h2>Συγγραφείς</h2>
+        <p>Αναζήτηση καταχωρημένων βιβλίων κατά συγγραφέα</p>
+        <p><a class="btn btn-secondary" href="{{url_for('author')}}" role="button">Αναζήτηση &raquo;</a></p>
+      </div>
+    </div>
+
+    <hr>
+
+  </div>
+
+{% endblock %}

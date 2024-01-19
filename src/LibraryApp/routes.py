@@ -32,6 +32,7 @@ def new_book():
         authors = form.get('authors')
         author_ids = []
         for x in authors:
+            ## if object contains last name then it means insert new
             if(not (x.get('lastName') is None)):
                 first_name = x.get('firstName')
                 if(first_name is None):
@@ -46,6 +47,7 @@ def new_book():
                     cur = connection.cursor()
                     cur.execute(query)
                     author_ids.append(cur.lastrowid)
+            ## else it contains id which means relate existing
             else:
                 author_ids.append(x.get('id'))
 
@@ -353,3 +355,38 @@ def author():
 
 
     return render_template('indexed_list.html', data = sorted_by_name, categories = sorted(list(sorted_by_name.keys())), type = 1)
+
+@app.route('/edit', methods = ['GET'])
+def edit_index():
+    return render_template('edit_index.html')
+
+@app.route('/edit/author', methods = ['GET', 'POST'])
+def edit_author():
+    if(request.method == 'GET'):
+        connection = sqlite3.connect(DB)
+        authors = []
+        with connection:
+            cur = connection.cursor()
+            query = 'SELECT * FROM `author`;'
+            cur.execute(query)
+            column_names = [i[0] for i in cur.description]
+            authors = sorted([dict(zip(column_names, entry)) for entry in cur.fetchall()], key = lambda x: x['last_name'])
+        return render_template('edit_author.html', authors = authors)
+    else:
+        data = request.form
+        first_name = data.get('authorFirstName')
+        if(first_name == ''):
+            first_name = 'NULL'
+        else:
+            first_name = utilities.foo(first_name)
+        last_name = data.get('authorLastName')
+        last_name = utilities.foo(last_name)
+        author_id = data.get('authorId')
+        query = f'''UPDATE `author`
+                  SET first_name = "{first_name}", last_name = "{last_name}"
+                  WHERE id = {author_id};'''
+        connection = sqlite3.connect(DB)
+        with connection:
+            cur = connection.cursor()
+            cur.execute(query)
+        return render_template('edit_index.html')
