@@ -95,7 +95,12 @@ def new_book():
                 volume = s.get('volume')
 
         ## BOOK
-        query = f'INSERT INTO `book` (title, volume, publisher_id, location_id, collection_id, edition) VALUES ("{title}", {volume}, {publisher_id}, {location_id}, {set_id}, {edition});'
+        query = f'''
+                INSERT INTO `book`
+                (title, volume, publisher_id, location_id, collection_id, edition)
+                VALUES
+                ("{title}", {volume}, {publisher_id}, {location_id}, {set_id}, {edition});
+                '''
         connection = sqlite3.connect(DB)
         with connection:
             cur = connection.cursor()
@@ -395,7 +400,7 @@ def edit_author():
 def edit_publisher():
     if(request.method == 'GET'):
         connection = sqlite3.connect(DB)
-        authors = []
+        publishers = []
         with connection:
             cur = connection.cursor()
             query = 'SELECT * FROM `publisher`;'
@@ -411,6 +416,40 @@ def edit_publisher():
         query = f'''UPDATE `publisher`
                   SET name = "{publisher_name}"
                   WHERE id = {publisher_id};'''
+        connection = sqlite3.connect(DB)
+        with connection:
+            cur = connection.cursor()
+            cur.execute(query)
+        return render_template('edit_index.html')
+
+@app.route('/edit/book', methods = ['GET', 'POST'])
+def edit_book():
+    if(request.method == 'GET'):
+        connection = sqlite3.connect(DB)
+        books = []
+        with connection:
+            cur = connection.cursor()
+            query = '''
+                SELECT b.*, c.title AS collection_title, ct.category FROM `book` b
+                INNER JOIN `collection` c ON b.collection_id = c.id
+                INNER JOIN `collection_type` ct ON c.collection_type_id = ct.id;
+                '''
+            cur.execute(query)
+            column_names = [i[0] for i in cur.description]
+            books = sorted([dict(zip(column_names, entry)) for entry in cur.fetchall()], key = lambda x: x['title'])
+        return render_template('edit_book.html', books = books)
+    else:
+        data = request.form
+        book_title = data.get('bookTitle')
+        book_title = utilities.foo(book_title)
+        book_id = data.get('bookId')
+        ## volume = data.get('volume')
+        ## if(volume == ''):
+        ##     volume = 'NULL'
+        query = f'''
+                UPDATE `book`
+                SET title = "{book_title}"
+                WHERE id = {book_id};'''
         connection = sqlite3.connect(DB)
         with connection:
             cur = connection.cursor()
