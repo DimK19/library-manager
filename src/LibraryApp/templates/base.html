@@ -6,7 +6,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/x-icon" href="/static/images/favicon-16x16.png">
-    <link rel="stylesheet" href="/static/css/styles.css">
 
     <title>
       {% block title %}
@@ -16,9 +15,12 @@
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for each template -->
+    <!-- Custom styles for each template (from official examples) -->
     <link href="/static/bootstrap-4.0.0/docs/4.0/examples/jumbotron/jumbotron.css" rel="stylesheet">
     <link href="/static/bootstrap-4.0.0/docs/4.0/examples/checkout/form-validation.css" rel="stylesheet">
+
+    <!-- Place own style sheet so that its rules can override all of the above -->
+    <link rel="stylesheet" href="/static/css/styles.css">
   </head>
 
   <body>
