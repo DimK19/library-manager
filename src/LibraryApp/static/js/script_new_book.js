@@ -5,6 +5,12 @@ document.getElementById('author-1-btn-existing').classList.add('library-btn-radi
 document.getElementById('author-1-form-new').style.display = 'none';
 document.getElementById('authorSelect1').classList.add('required');
 var authorOptionsHTML = document.getElementById('authorSelect1').innerHTML;
+var publisherOptions = document.getElementById('publisherSelect').options;
+// above returns an HTMLOptionsCollection, hence the use of the spread operator
+// below to convert it to an Array. The shift() function removes and returns
+// the first element, used to remove the default 'Αναζήτηση'
+publisherOptions = [...publisherOptions].map(x => x.text);
+publisherOptions.shift();
 
 document.getElementById('author').onclick = function(e) {
   if(e.target.classList.contains('library-btn-radio-right')) {
@@ -187,7 +193,7 @@ document.getElementById('insertButton').onclick = (e) => {
   }
 
   if(isValid === 1) {
-    console.log('valid submission');
+    // console.log('valid submission');
     // request Object
     let ro = {};
 
@@ -219,6 +225,13 @@ document.getElementById('insertButton').onclick = (e) => {
     /* PUBLISHER AND EDITION*/
     if(document.getElementById('publisher-form-existing').style.display === 'none') {
       let newPublisherName = document.getElementById('newPublisher').value;
+      // If new publisher, check that there is not one with the same name
+      if(publisherOptions.includes(newPublisherName)) {
+        let confirmMessage = `Υπάρχει ήδη καταχωρημένος εκδότης με το όνομα «${newPublisherName}». Να γίνει καταχώρηση εκδότη με ίδιο όνομα;`
+        if(!confirm(confirmMessage)) {
+          return;
+        }
+      }
       let edition = document.getElementById('editionNew').value;
       if(edition == '') {
         edition = null
