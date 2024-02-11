@@ -19,7 +19,7 @@
         <select class="form-control form-select d-block w-100 required" name="bookSelect" id="bookSelect">
           <option value="" selected disabled>Αναζήτηση</option>
           {% for b in books %}
-          <option value="{€€id€€: €€{{b.id}}€€, €€title€€: €€{{b.title}}€€, €€collection€€: €€{{b.collection_title}}€€, €€collection_type€€: €€{{b.category}}€€, €€volume€€: €€{{b.volume}}€€}">{{b.title}}</option>
+          <option value="{€€id€€: €€{{b.id}}€€, €€title€€: €€{{b.title}}€€, €€volume€€: €€{{b.volume}}€€}">{{b.title}}</option>
           {% endfor %}
         </select>
         <br>

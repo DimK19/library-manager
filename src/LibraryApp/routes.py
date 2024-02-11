@@ -430,9 +430,7 @@ def edit_book():
         with connection:
             cur = connection.cursor()
             query = '''
-                SELECT b.*, c.title AS collection_title, ct.category FROM `book` b
-                INNER JOIN `collection` c ON b.collection_id = c.id
-                INNER JOIN `collection_type` ct ON c.collection_type_id = ct.id;
+                SELECT b.* FROM `book` b
                 '''
             cur.execute(query)
             column_names = [i[0] for i in cur.description]
