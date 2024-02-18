@@ -26,6 +26,6 @@ document.getElementById('submitEditBook').onclick = (e) => {
   }
 
   if(isValid === 1) {
-    document.getElementById('editPublisherForm').submit();
+    document.getElementById('editBookForm').submit();
   }
 }
