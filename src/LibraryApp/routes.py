@@ -41,7 +41,8 @@ def new_book():
                     first_name = utilities.foo(first_name)
                 last_name = x.get('lastName')
                 last_name = utilities.foo(last_name)
-                query = f'INSERT INTO `author` (first_name, last_name) VALUES ("{first_name}", "{last_name}");'
+                query = f'''INSERT INTO `author` (first_name, last_name)
+                            VALUES ("{first_name}", "{last_name}");'''
                 connection = sqlite3.connect(DB)
                 with connection:
                     cur = connection.cursor()
@@ -83,7 +84,8 @@ def new_book():
                 sn = s.get('setName')
                 sn = utilities.foo(sn)
                 st = s.get('setType')
-                query = f'INSERT INTO `collection` (collection_type_id, title) VALUES ({st}, "{sn}");'
+                query = f'''INSERT INTO `collection` (collection_type_id, title)
+                            VALUES ({st}, "{sn}");'''
                 connection = sqlite3.connect(DB)
                 with connection:
                     cur = connection.cursor()
@@ -110,7 +112,8 @@ def new_book():
         ## BOOK_AUTHOR
         try:
             for aid in author_ids:
-                query = f'INSERT INTO `book_author` (book_id, author_id) VALUES ({book_id}, {aid});'
+                query = f'''INSERT INTO `book_author` (book_id, author_id)
+                            VALUES ({book_id}, {aid});'''
                 connection = sqlite3.connect(DB)
                 with connection:
                     cur = connection.cursor()
@@ -291,7 +294,10 @@ def search_book():
         connection = sqlite3.connect(DB)
         with connection:
             cur = connection.cursor()
-            query = f'SELECT b.id, b.title, p.name, l.place FROM `book` b INNER JOIN `publisher` p ON b.publisher_id = p.id INNER JOIN `location` l ON b.location_id = l.id WHERE b.title LIKE "%{title}%";'
+            query = f'''SELECT b.id, b.title, p.name, l.place FROM `book` b
+                        INNER JOIN `publisher` p ON b.publisher_id = p.id
+                        INNER JOIN `location` l ON b.location_id = l.id
+                        WHERE b.title LIKE "%{title}%";'''
             cur.execute(query)
             column_names = [i[0] for i in cur.description]
             books = sorted([dict(zip(column_names, entry)) for entry in cur.fetchall()], key = lambda x: x['title'])
@@ -302,7 +308,9 @@ def search_book():
             onlybooks = [dict(zip(column_names, entry)) for entry in cur.fetchall()]
 
             for ob in onlybooks:
-                query = f'SELECT ba.book_id, a.* FROM `author` a INNER JOIN `book_author` ba ON a.id = ba.author_id WHERE ba.book_id = {ob["id"]};'
+                query = f'''SELECT ba.book_id, a.* FROM `author` a
+                            INNER JOIN `book_author` ba ON a.id = ba.author_id
+                            WHERE ba.book_id = {ob["id"]};'''
                 cur.execute(query)
                 column_names = [i[0] for i in cur.description]
                 temp = [dict(zip(column_names, entry)) for entry in cur.fetchall()]
@@ -318,6 +326,50 @@ def search_book():
 
     return render_template('search_book.html', books = books)
 
+## Duplicate books by title
+@app.route('/book/duplicate', methods = ['GET'])
+def get_duplicates():
+    connection = sqlite3.connect(DB)
+    books = []
+    with connection:
+        cur = connection.cursor()
+        query = '''SELECT b.id, b.title, a.first_name, a.last_name, p.name, l.place
+                   FROM `book` b INNER JOIN (
+                     SELECT title FROM `book`
+                     GROUP BY title
+                     HAVING COUNT(*) > 1
+                     ) x ON x.title = b.title
+                   INNER JOIN `book_author` ba ON b.id = ba.book_id
+                   INNER JOIN `author` a ON ba.author_id = a.id
+                   INNER JOIN `publisher` p ON b.publisher_id = p.id
+                   INNER JOIN `location` l ON b.location_id = l.id
+                   ORDER BY b.title;'''
+
+        cur.execute(query)
+        column_names = [i[0] for i in cur.description]
+        books = [dict(zip(column_names, entry)) for entry in cur.fetchall()]
+        print(books)
+
+    return render_template('books.html', books = books)
+
+@app.route('/book/delete/<int:book_id>', methods = ['GET'])
+def delete_book(book_id):
+    try:
+        connection = sqlite3.connect(DB)
+        with connection:
+            cur = connection.cursor()
+            ## https://stackoverflow.com/a/5901100
+            ## https://stackoverflow.com/q/64785806
+            cur.execute('PRAGMA foreign_keys = ON;')
+
+            query = f'DELETE FROM `book` WHERE id = {book_id}'
+            cur.execute(query)
+        flash('Deleted successfully', 'primary')
+    except Exception as e:
+        flash(e, 'danger')
+
+    return render_template('index.html')
+
 @app.route('/collection', methods = ['GET'])
 def collection():
     connection = sqlite3.connect(DB)
@@ -325,7 +377,9 @@ def collection():
     sorted_by_type = {}
     with connection:
         cur = connection.cursor()
-        query = 'SELECT c.*, ct.category FROM `collection` c INNER JOIN `collection_type` ct ON c.collection_type_id = ct.id;'
+        query = '''SELECT c.*, ct.category FROM `collection` c
+                   INNER JOIN `collection_type` ct
+                   ON c.collection_type_id = ct.id;'''
         cur.execute(query)
         column_names = [i[0] for i in cur.description]
         collections = [dict(zip(column_names, entry)) for entry in cur.fetchall()]

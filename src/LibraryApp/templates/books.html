@@ -19,15 +19,31 @@
           <th style="width: 30%">Συγγραφέας</th>
           <th style="width: 20%">Εκδότης</th>
           <th style="width: 15%">Τοποθεσία</th>
+          <!--
+          <th style="width: 5%"></th>
+          -->
         </tr>
       </thead>
       <tbody>
         {% for b in books %}
         <tr>
           <td>{{b.title}}</td>
+          {% if b.authors %}
           <td>{{b.authors}}</td>
+          {% else %}
+          <td>{{b.last_name}}{% if b.first_name != 'NULL' %}, {{b.first_name}}{% endif %}</td>
+          {% endif %}
           <td>{{b.name}}</td>
           <td>{{b.place}}</td>
+          <!--
+          <td>
+            <form action="{{ url_for('delete_book', book_id=b.id) }}" method="GET">
+              <button type = "submit">
+                <i class = "fa fa-remove" style="font-size:8px"></i>
+              </button>
+            </form>
+          </td>
+          -->
         </tr>
         {% endfor %}
       </tbody>
