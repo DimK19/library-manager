@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS "book_author" (
 	"author_id"	INTEGER,
 	"book_id"	INTEGER,
 	FOREIGN KEY("author_id") REFERENCES "author"("id"),
-	FOREIGN KEY("book_id") REFERENCES "book"("id")
+	FOREIGN KEY("book_id") REFERENCES "book"("id") ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS "collection" (
 	"id"	INTEGER,
