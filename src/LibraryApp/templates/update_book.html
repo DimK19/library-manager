@@ -9,46 +9,46 @@
 <div class="container">
   <div class="py-5 text-center">
     <img src="{{url_for('static', filename = 'images/fountain-pen.png')}}" width="64">
-    <h2>Αναζήτηση εκδότη</h2>
+    <h2>Αναζήτηση βιβλίου</h2>
     <p class="lead"></p>
   </div>
 
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="mb-3">
-        <select class="form-control form-select d-block w-100 required" name="publisherSelect" id="publisherSelect">
+        <select class="form-control form-select d-block w-100 required" name="bookSelect" id="bookSelect">
           <option value="" selected disabled>Αναζήτηση</option>
-          {% for p in publishers %}
-          <option value="{'id': '{{p.id}}', 'name': '{{p.name}}'}">{{p.name}}</option>
+          {% for b in books %}
+          <option value="{€€id€€: €€{{b.id}}€€, €€title€€: €€{{b.title}}€€, €€volume€€: €€{{b.volume}}€€}">{{b.title}}</option>
           {% endfor %}
         </select>
         <br>
       </div>
-      <button id="submitPublisherName" class="btn btn-secondary btn-lg btn-block">Επιλογή</button>
+      <button id="submitBookTitle" class="btn btn-secondary btn-lg btn-block">Επιλογή</button>
       <hr>
     </div>
 
     <div id="editFormArea" class="col-md-8" style="display: none;">
-      <form id="editPublisherForm" action="{{url_for('edit_publisher')}}" method="POST">
-        <div class="mb-3" id="editPublisher">
+      <form id="editBookForm" action="{{url_for('book.update_book')}}" method="POST">
+        <div class="mb-3" id="editBook">
           <h4>Διόρθωση στοιχείων</h4>
           <div class="row">
             <div class="col-md-12 mb-3">
-              <label for="publisherName">Όνομα</label>
-              <input type="text" class="form-control" name="publisherName" id="publisherName">
+              <label for="bookTitle">Τίτλος</label>
+              <input type="text" class="form-control" name="bookTitle" id="bookTitle">
               <div class="invalid-feedback">
                 Απαιτούμενο πεδίο.
               </div>
             </div>
           </div>
         </div>
-        <input type="hidden" name="publisherId" id="publisherId" value="">
+        <input type="hidden" name="bookId" id="bookId" value="">
       </form>
-      <button id="submitEditPublisher" class="btn btn-primary btn-lg btn-block">Διόρθωση</button>
+      <button id="submitEditBook" class="btn btn-primary btn-lg btn-block">Διόρθωση</button>
     </div>
   </div>
 </div>
 
-<script src="/static/js/script_edit_publisher.js"></script>
+<script src="/static/js/script_edit_book.js"></script>
 
 {% endblock %}

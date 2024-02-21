@@ -34,7 +34,7 @@
           <td>{{b.name}}</td>
           <td>{{b.place}}</td>
           <td>
-            <form action="{{ url_for('delete_book', book_id=b.id) }}" method="GET">
+            <form action="{{url_for('book.delete_book', book_id=b.id)}}" method="GET">
               <!-- <button type = "submit"> -->
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <!--

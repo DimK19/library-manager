@@ -293,7 +293,7 @@ document.getElementById('insertButton').onclick = (e) => {
       }
     }
 
-    fetch(new URL('http://127.0.0.1:8009/book/record'), {
+    fetch(new URL('http://127.0.0.1:8009/book/insert'), {
       method: 'POST',
       headers: new Headers({'Content-Type': 'application/json'}),
       body: JSON.stringify(ro)

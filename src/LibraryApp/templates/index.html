@@ -10,7 +10,7 @@
     <div class="container">
       <h1 class="display-3">Βιβλιοθήκη</h1>
       <p></p>
-      <p><a class="btn btn-primary btn-lg" href="{{url_for('new_book')}}" role="button">Καταχώρηση τίτλου &raquo;</a></p>
+      <p><a class="btn btn-primary btn-lg" href="{{url_for('book.insert_book')}}" role="button">Καταχώρηση τίτλου &raquo;</a></p>
     </div>
   </div>
 
@@ -19,17 +19,17 @@
       <div class="col-md-4">
         <h2>Κατάλογος</h2>
         <p>Εμφάνιση όλων των καταχωρημένων τίτλων</p>
-        <p><a class="btn btn-secondary" href="{{url_for('get_books')}}" role="button">Κατάλογος &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="{{url_for('book.get_books')}}" role="button">Κατάλογος &raquo;</a></p>
       </div>
       <div class="col-md-4">
         <h2>Αναζήτηση</h2>
         <p>Αναζήτηση καταχωρημένων βιβλίων κατά τίτλο</p>
-        <p><a class="btn btn-secondary" href="{{url_for('search_book')}}" role="button">Αναζήτηση &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="{{url_for('book.search_book')}}" role="button">Αναζήτηση &raquo;</a></p>
       </div>
       <div class="col-md-4">
         <h2>Συγγραφείς</h2>
         <p>Αναζήτηση καταχωρημένων βιβλίων κατά συγγραφέα</p>
-        <p><a class="btn btn-secondary" href="{{url_for('author')}}" role="button">Αναζήτηση &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="{{url_for('author.get_authors')}}" role="button">Αναζήτηση &raquo;</a></p>
       </div>
     </div>
 
