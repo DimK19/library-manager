@@ -15,7 +15,7 @@ def internal_server_error(e):
 
 ### Opening page ###
 @app.route('/')
-def root():
+def index():
     return render_template('index.html')
 
 ### Record book ###
@@ -368,7 +368,8 @@ def delete_book(book_id):
     except Exception as e:
         flash(e, 'danger')
 
-    return render_template('index.html')
+    ## return render_template('index.html')
+    return redirect(url_for('index'))
 
 @app.route('/collection', methods = ['GET'])
 def collection():
