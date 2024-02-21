@@ -23,8 +23,12 @@ def update_publisher():
         query = f'''UPDATE `publisher`
                   SET name = "{publisher_name}"
                   WHERE id = {publisher_id};'''
-        connection = sqlite3.connect(DB)
-        with connection:
-            cur = connection.cursor()
-            cur.execute(query)
-        return render_template('update_index.html')
+        try:
+            connection = sqlite3.connect(DB)
+            with connection:
+                cur = connection.cursor()
+                cur.execute(query)
+            flash('Επιτυχής διόρθωση εκδότη.', 'primary')
+        except Exception as e:
+            flash(e, 'danger')
+        return redirect(url_for('update_index'))

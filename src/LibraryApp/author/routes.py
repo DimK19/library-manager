@@ -51,8 +51,12 @@ def update_author():
         query = f'''UPDATE `author`
                   SET first_name = "{first_name}", last_name = "{last_name}"
                   WHERE id = {author_id};'''
-        connection = sqlite3.connect(DB)
-        with connection:
-            cur = connection.cursor()
-            cur.execute(query)
-        return render_template('update_index.html')
+        try:
+            connection = sqlite3.connect(DB)
+            with connection:
+                cur = connection.cursor()
+                cur.execute(query)
+            flash('Επιτυχής διόρθωση συγγραφέως.', 'primary')
+        except Exception as e:
+            flash(e, 'danger')
+        return redirect(url_for('update_index'))

@@ -386,8 +386,12 @@ def update_book():
                 UPDATE `book`
                 SET title = "{book_title}"
                 WHERE id = {book_id};'''
-        connection = sqlite3.connect(DB)
-        with connection:
-            cur = connection.cursor()
-            cur.execute(query)
-        return render_template('update_index.html')
+        try:
+            connection = sqlite3.connect(DB)
+            with connection:
+                cur = connection.cursor()
+                cur.execute(query)
+            flash('Επιτυχής διόρθωση βιβλίου.', 'primary')
+        except Exception as e:
+            flash(e, 'danger')
+        return redirect(url_for('update_index'))
