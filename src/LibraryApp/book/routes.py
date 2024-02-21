@@ -353,7 +353,7 @@ def delete_book(book_id):
 
             query = f'DELETE FROM `book` WHERE id = {book_id}'
             cur.execute(query)
-        flash('Deleted successfully', 'primary')
+        flash('Το βιβλίο διεγράφη.', 'primary')
     except Exception as e:
         flash(e, 'danger')
 
