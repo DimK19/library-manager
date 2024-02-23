@@ -35,3 +35,12 @@
 	color: white;
 	background-color: #6C757D;
 }
+
+table tr td:last-child {
+    border: none;
+    background-color: white;
+}
+
+table tr th:last-child {
+    border: none;
+}

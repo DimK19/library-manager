@@ -13,10 +13,12 @@
     <p class="lead"></p>
   </div>
 
-  <div class="container-fluid">
-    <div class="row">
+  <!-- https://getbootstrap.com/docs/4.0/utilities/display/#hiding-elements -->
+  <!-- hide on screens wider than lg -->
+  <div class="d-lg-none">
+    <div class="container-fluid">
       {% for c in categories %}
-      <div class="col-{% if type == 0 %}4{% else %}3{% endif %}">
+      <div>
         <h4>{{c}}</h4>
         {% for k in data[c] %}
         <p>
@@ -33,6 +35,31 @@
       {% endfor %}
     </div>
   </div>
+
+  <!-- hide on screens smaller than lg -->
+  <div class="d-none d-lg-block">
+    <div class="container-fluid">
+      <div class="row">
+        {% for c in categories %}
+        <div class="col-{% if type == 0 %}4{% else %}3{% endif %}">
+          <h4>{{c}}</h4>
+          {% for k in data[c] %}
+          <p>
+            <a href="{{url_for('book.get_books_with_criterion')}}?{% if type == 0 %}collection_id{% else %}author_id{% endif %}={{k.id}}">
+              {% if type == 0 %}
+                {{k.title}}
+              {% else %}
+                {{k.last_name}}{% if k.first_name != 'NULL' %}, {{k.first_name}}{% endif %}
+              {% endif %}
+            </a>
+          </p>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
 </div>
 
 {% endblock %}

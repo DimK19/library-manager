@@ -156,7 +156,9 @@ def get_books():
     books = []
     with connection:
         cur = connection.cursor()
-        query = '''SELECT b.id, b.title, p.name, l.place FROM `book` b
+        query = '''SELECT b.id, b.title, b.volume, c.title AS col_title, p.name, l.place
+                   FROM `book` b
+                   LEFT JOIN `collection` c ON b.collection_id = c.id
                    INNER JOIN `publisher` p ON b.publisher_id = p.id
                    INNER JOIN `location` l ON b.location_id = l.id;'''
         cur.execute(query)
@@ -196,7 +198,9 @@ def get_books_with_criterion():
         books = []
         with connection:
             cur = connection.cursor()
-            query = f'''SELECT b.id, b.title, p.name, l.place FROM `book` b
+            query = f'''SELECT b.id, b.title, b.volume, c.title AS col_title, p.name, l.place
+                        FROM `book` b
+                        LEFT JOIN `collection` c ON b.collection_id = c.id
                         INNER JOIN `publisher` p ON b.publisher_id = p.id
                         INNER JOIN `location` l ON b.location_id = l.id
                         WHERE b.collection_id = {req_parameters["collection_id"]};'''
@@ -233,9 +237,11 @@ def get_books_with_criterion():
         books = []
         with connection:
             cur = connection.cursor()
-            query = f'''SELECT b.id, b.title, p.name, l.place FROM `book` b
+            query = f'''SELECT b.id, b.title, b.volume, p.name, l.place, c.title AS col_title
+                        FROM `book` b
                         INNER JOIN `publisher` p ON b.publisher_id = p.id
                         INNER JOIN `location` l ON b.location_id = l.id
+                        LEFT JOIN `collection` c ON b.collection_id = c.id
                         INNER JOIN `book_author` ba ON b.id = ba.book_id
                         INNER JOIN `author` a ON a.id = ba.author_id
                         WHERE a.id = {req_parameters["author_id"]};'''
@@ -282,7 +288,9 @@ def search_book():
         connection = sqlite3.connect(DB)
         with connection:
             cur = connection.cursor()
-            query = f'''SELECT b.id, b.title, p.name, l.place FROM `book` b
+            query = f'''SELECT b.id, b.title, b.volume, c.title AS col_title, p.name, l.place
+                        FROM `book` b
+                        LEFT JOIN `collection` c ON b.collection_id = c.id
                         INNER JOIN `publisher` p ON b.publisher_id = p.id
                         INNER JOIN `location` l ON b.location_id = l.id
                         WHERE b.title LIKE "%{title}%";'''
@@ -321,12 +329,13 @@ def get_duplicates():
     books = []
     with connection:
         cur = connection.cursor()
-        query = '''SELECT b.id, b.title, a.first_name, a.last_name, p.name, l.place
+        query = '''SELECT b.id, b.title, b.volume, c.title AS col_title, a.first_name, a.last_name, p.name, l.place
                    FROM `book` b INNER JOIN (
                      SELECT title FROM `book`
                      GROUP BY title
                      HAVING COUNT(*) > 1
                      ) x ON x.title = b.title
+                   LEFT JOIN `collection` c ON b.collection_id = c.id
                    INNER JOIN `book_author` ba ON b.id = ba.book_id
                    INNER JOIN `author` a ON ba.author_id = a.id
                    INNER JOIN `publisher` p ON b.publisher_id = p.id

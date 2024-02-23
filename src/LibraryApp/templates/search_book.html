@@ -30,29 +30,11 @@
       <hr>
     </div>
   </div>
+
   {% if books %}
-  <div class="table-responsive">
-    <table class="table table-striped table-sm">
-      <thead>
-        <tr>
-          <th style="width: 40%">Τίτλος</th>
-          <th style="width: 25%">Συγγραφέας</th>
-          <th style="width: 20%">Εκδότης</th>
-          <th style="width: 15%">Τοποθεσία</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for b in books %}
-        <tr>
-          <td>{{b.title}}</td>
-          <td>{{b.authors}}</td>
-          <td>{{b.name}}</td>
-          <td>{{b.place}}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+
+  {% include "table.html" %}
+
   {% endif %}
 </div>
 
