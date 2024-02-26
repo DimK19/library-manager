@@ -345,7 +345,6 @@ def get_duplicates():
         cur.execute(query)
         column_names = [i[0] for i in cur.description]
         books = [dict(zip(column_names, entry)) for entry in cur.fetchall()]
-        print(books)
 
     return render_template('books.html', books = books)
 
@@ -377,7 +376,9 @@ def update_book():
         with connection:
             cur = connection.cursor()
             query = '''
-                SELECT b.* FROM `book` b
+                SELECT b.*, c.title AS col_title FROM `book` b
+                LEFT JOIN `collection` c
+                ON b.collection_id = c.id;
                 '''
             cur.execute(query)
             column_names = [i[0] for i in cur.description]
@@ -388,12 +389,12 @@ def update_book():
         book_title = data.get('bookTitle')
         book_title = utilities.foo(book_title)
         book_id = data.get('bookId')
-        ## volume = data.get('volume')
-        ## if(volume == ''):
-        ##     volume = 'NULL'
+        volume = data.get('volumeUpd')
+        if(volume == ''):
+            volume = 'NULL'
         query = f'''
                 UPDATE `book`
-                SET title = "{book_title}"
+                SET title = "{book_title}", volume = {volume}
                 WHERE id = {book_id};'''
         try:
             connection = sqlite3.connect(DB)

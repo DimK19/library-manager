@@ -19,7 +19,7 @@
         <select class="form-control form-select d-block w-100 required" name="bookSelect" id="bookSelect">
           <option value="" selected disabled>Αναζήτηση</option>
           {% for b in books %}
-          <option value="{€€id€€: €€{{b.id}}€€, €€title€€: €€{{b.title}}€€, €€volume€€: €€{{b.volume}}€€}">{{b.title}}</option>
+          <option value="{€€id€€: €€{{b.id}}€€, €€title€€: €€{{b.title}}€€, €€col_title€€: €€{{b.col_title}}€€, €€volume€€: €€{{b.volume}}€€}">{{b.title}}</option>
           {% endfor %}
         </select>
         <br>
@@ -39,6 +39,16 @@
               <div class="invalid-feedback">
                 Απαιτούμενο πεδίο.
               </div>
+            </div>
+          </div>
+          <div class="row" id="editCol">
+            <div class="col-md-9 mb-3">
+              <p>Το βιβλίο ανήκει στην συλλογή</p>
+              <p id="colName"></p>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="volumeUpd" class="form-label">Τόμος / τεύχος</label>
+              <input type="number" class="form-control" id="volumeUpd" name="volumeUpd">
             </div>
           </div>
         </div>

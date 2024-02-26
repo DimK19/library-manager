@@ -139,7 +139,9 @@
           <div class="col-md-6 mb-3">
             <label for="location"><h4>Τοποθεσία</h4></label>
             <select class="form-control form-select d-block w-100 required" name="location" id="location">
+              <!--
               <option value="" selected disabled></option>
+              -->
               {% for l in locations %}
               <option value="{{l.id}}">{{l.place}}</option>
               {% endfor %}
