@@ -156,7 +156,7 @@ def get_books():
     books = []
     with connection:
         cur = connection.cursor()
-        query = '''SELECT b.id, b.title, b.volume, c.title AS col_title, p.name, l.place
+        query = '''SELECT b.*, c.title AS col_title, p.name, l.place
                    FROM `book` b
                    LEFT JOIN `collection` c ON b.collection_id = c.id
                    INNER JOIN `publisher` p ON b.publisher_id = p.id
@@ -198,7 +198,7 @@ def get_books_with_criterion():
         books = []
         with connection:
             cur = connection.cursor()
-            query = f'''SELECT b.id, b.title, b.volume, c.title AS col_title, p.name, l.place
+            query = f'''SELECT b.*, c.title AS col_title, p.name, l.place
                         FROM `book` b
                         LEFT JOIN `collection` c ON b.collection_id = c.id
                         INNER JOIN `publisher` p ON b.publisher_id = p.id
@@ -237,7 +237,7 @@ def get_books_with_criterion():
         books = []
         with connection:
             cur = connection.cursor()
-            query = f'''SELECT b.id, b.title, b.volume, p.name, l.place, c.title AS col_title
+            query = f'''SELECT b.*, p.name, l.place, c.title AS col_title
                         FROM `book` b
                         INNER JOIN `publisher` p ON b.publisher_id = p.id
                         INNER JOIN `location` l ON b.location_id = l.id
@@ -288,7 +288,7 @@ def search_book():
         connection = sqlite3.connect(DB)
         with connection:
             cur = connection.cursor()
-            query = f'''SELECT b.id, b.title, b.volume, c.title AS col_title, p.name, l.place
+            query = f'''SELECT b.*, c.title AS col_title, p.name, l.place
                         FROM `book` b
                         LEFT JOIN `collection` c ON b.collection_id = c.id
                         INNER JOIN `publisher` p ON b.publisher_id = p.id
@@ -329,7 +329,7 @@ def get_duplicates():
     books = []
     with connection:
         cur = connection.cursor()
-        query = '''SELECT b.id, b.title, b.volume, c.title AS col_title, a.first_name, a.last_name, p.name, l.place
+        query = '''SELECT b.*, c.title AS col_title, a.first_name, a.last_name, p.name, l.place
                    FROM `book` b INNER JOIN (
                      SELECT title FROM `book`
                      GROUP BY title

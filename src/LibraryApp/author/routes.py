@@ -23,6 +23,8 @@ def get_authors():
                 sorted_by_name[a['last_name'][0]] = []
                 sorted_by_name[a['last_name'][0]].append(a)
 
+        sorted_by_name = {k: sorted(v, key = lambda y: y['last_name']) for k, v in sorted_by_name.items()}
+
     return render_template('indexed_list.html', data = sorted_by_name, categories = sorted(list(sorted_by_name.keys())), type = 1)
 
 ### Update author ###
