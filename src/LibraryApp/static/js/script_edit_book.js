@@ -11,6 +11,10 @@ document.getElementById('submitBookTitle').onclick = (e) => {
     let obj = JSON.parse(input.value.replaceAll('€€', '"'));
     document.getElementById('bookTitle').value = obj.title;
     document.getElementById('bookId').value = obj.id;
+    document.getElementById('publisherSelectUpd').value = obj.publisher_id;
+    if(obj.edition !== 'None') {
+      document.getElementById('editionUpd').value = obj.edition;
+    }
     document.getElementById('editFormArea').style.display = 'block';
     document.getElementById('editCol').style.display = 'none';
     if(obj.col_title !== 'None') {

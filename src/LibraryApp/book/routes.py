@@ -383,18 +383,27 @@ def update_book():
             cur.execute(query)
             column_names = [i[0] for i in cur.description]
             books = sorted([dict(zip(column_names, entry)) for entry in cur.fetchall()], key = lambda x: x['title'])
-        return render_template('update_book.html', books = books)
+
+            query = 'SELECT * FROM `publisher`;'
+            cur.execute(query)
+            column_names = [i[0] for i in cur.description]
+            publishers = sorted([dict(zip(column_names, entry)) for entry in cur.fetchall()], key = lambda x: x['name'])
+        return render_template('update_book.html', books = books, publishers = publishers)
     else:
         data = request.form
         book_title = data.get('bookTitle')
         book_title = utilities.foo(book_title)
         book_id = data.get('bookId')
         volume = data.get('volumeUpd')
+        pub_id = data.get('publisherSelectUpd')
+        edition = data.get('editionUpd')
         if(volume == ''):
             volume = 'NULL'
+        if(edition == ''):
+            edition = 'NULL'
         query = f'''
                 UPDATE `book`
-                SET title = "{book_title}", volume = {volume}
+                SET title = "{book_title}", volume = {volume}, publisher_id = {pub_id}, edition = {edition}
                 WHERE id = {book_id};'''
         try:
             connection = sqlite3.connect(DB)
