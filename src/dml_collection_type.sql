@@ -1,0 +1,12 @@
+BEGIN TRANSACTION;
+INSERT INTO "collection_type" ("id","category") VALUES (1,'ΑΡΧΑΙΑ ΓΡΑΜΜΑΤΕΙΑ');
+INSERT INTO "collection_type" ("id","category") VALUES (2,'ΕΓΚΥΚΛΟΠΑΙΔΕΙΑ');
+INSERT INTO "collection_type" ("id","category") VALUES (3,'ΕΠΙΣΤΗΜΟΝΙΚΗ ΣΕΙΡΑ');
+INSERT INTO "collection_type" ("id","category") VALUES (4,'ΘΕΜΑΤΙΚΗ ΣΥΛΛΟΓΗ');
+INSERT INTO "collection_type" ("id","category") VALUES (5,'ΙΣΤΟΡΙΚΗ ΣΕΙΡΑ');
+INSERT INTO "collection_type" ("id","category") VALUES (6,'ΚΟΜΙΞ');
+INSERT INTO "collection_type" ("id","category") VALUES (7,'ΛΕΞΙΚΟ');
+INSERT INTO "collection_type" ("id","category") VALUES (8,'ΛΟΓΟΤΕΧΝΙΚΗ ΣΕΙΡΑ');
+INSERT INTO "collection_type" ("id","category") VALUES (9,'ΠΕΡΙΟΔΙΚΟ');
+INSERT INTO "collection_type" ("id","category") VALUES (10,'ΤΑΞΙΔΙΩΤΙΚΟΣ ΟΔΗΓΟΣ');
+COMMIT;
